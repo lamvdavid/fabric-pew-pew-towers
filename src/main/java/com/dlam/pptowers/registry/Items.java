@@ -13,7 +13,6 @@ public class Items {
     public static final ArrowTowerItem ARROW_TOWER_ITEM = new ArrowTowerItem(new FabricItemSettings().group(ItemGroup.MISC));
 
     public static void registerItems() {
-        Registry.register(Registry.ITEM, new Identifier(PPTowers.MOD_ID, "tower_item"), TOWER_ITEM);
         Registry.register(Registry.ITEM, new Identifier(PPTowers.MOD_ID, "arrow_tower_item"), ARROW_TOWER_ITEM);
     }
 }
