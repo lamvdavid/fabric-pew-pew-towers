@@ -7,9 +7,9 @@ import net.minecraft.util.math.Position;
 import net.minecraft.world.World;
 
 public class ArrowTowerBlockEntity extends TowerBlockEntity{
-    //Hard coded range. May change later if doing tower upgrades
+    //Hard coded stats. May change later if doing tower upgrades
     public static final double X_RANGE = 10.0;
-    public static final double Y_RANGE = 4.0;
+    public static final double Y_RANGE = 8.0;
     public static final double Z_RANGE = 10.0;
     public static final int FIRE_RATE = 20;
 
@@ -18,7 +18,7 @@ public class ArrowTowerBlockEntity extends TowerBlockEntity{
     }
 
     protected ProjectileEntity createProjectile(World world, Position position) {
-        ArrowEntity arrow = new ArrowEntity(world, (position.getX() + xFace), (position.getY() + yFace), (position.getZ() + zFace));
+        ArrowEntity arrow = new ArrowEntity(world, position.getX(), position.getY(), position.getZ());
         return arrow;
     }
 }
