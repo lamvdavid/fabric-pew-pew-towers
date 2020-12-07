@@ -43,7 +43,7 @@ public abstract class TowerBlockEntity extends BlockEntity implements Tickable {
     //Shoot a projectile at the target mob
     public void shoot() {
         if(fireRateCounter == fireRate) {
-            Position position = new PositionImpl(pos.getX(),pos.getY(),pos.getZ());
+            Position position = new PositionImpl(pos.getX() + xFace,pos.getY() + yFace,pos.getZ() + zFace);
             ProjectileEntity proj = this.createProjectile(world, position);
             double x = target.getX() - proj.getX();
             double y = target.getBodyY(0.33333333D) - proj.getY();
@@ -95,34 +95,34 @@ public abstract class TowerBlockEntity extends BlockEntity implements Tickable {
         double y = e.getY() - pos.getY();
         double z = e.getZ() - pos.getZ();
 
-        xyz[1] = y >= -1 ? 0.5 : 0;
+        xyz[1] = 0.5;
 
-        if(Math.abs(x) > Math.abs(z)) {
-            xyz[0] = x > 0 ? 1.05 : -0.1;
+        if(y >= 3) {
+            xyz[0] = 0.5;
+            xyz[1] = 1.05;
+            xyz[2] = 0.5;
+        } else if(y <= -3) {
+            xyz[0] = 0.5;
+            xyz[1] = -0.1;
             xyz[2] = 0.5;
         } else {
-            xyz[2] = z > 0 ? 1.05 : -0.1;
-            xyz[0] = 0.5;
+            if(Math.abs(x) > Math.abs(z)) {
+                xyz[0] = x > 0 ? 1.05 : -0.1;
+                xyz[2] = 0.5;
+            } else {
+                xyz[2] = z > 0 ? 1.05 : -0.1;
+                xyz[0] = 0.5;
+            }
         }
 
         return xyz;
     }
 
     //Offsets the direction of the block for spawning projectiles
-    public void setTargetDirection(Entity e) {
-        double x = e.getX() - pos.getX();
-        double y = e.getY() - pos.getY();
-        double z = e.getZ() - pos.getZ();
-        xFace = 0;
-        yFace = y >= -1 ? 0.5 : 0;
-        zFace = 0;
-        if(Math.abs(x) > Math.abs(z)) {
-            xFace = x > 0 ? 1.05 : -0.1;
-            zFace = 0.5;
-        } else {
-            zFace = z > 0 ? 1.05 : -0.1;
-            xFace = 0.5;
-        }
+    public void setTargetDirection(double x, double y, double z) {
+        xFace = x;
+        yFace = y;
+        zFace = z;
     }
 
     //Retrieves all hostiles entities within range of the block
@@ -149,7 +149,7 @@ public abstract class TowerBlockEntity extends BlockEntity implements Tickable {
             if(testDistance < targetDistance) {
                 offset = getTargetDirection(e);
                 if(checkSightLine(e, offset[0], offset[1], offset[2])) {
-                    setTargetDirection(e);
+                    setTargetDirection(offset[0], offset[1], offset[2]);
                     target = (HostileEntity) e;
                     targetDistance = testDistance;
                 }
