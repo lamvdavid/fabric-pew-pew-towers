@@ -6,12 +6,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.util.Tickable;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Position;
-import net.minecraft.util.math.PositionImpl;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -19,7 +15,6 @@ import java.util.List;
 public abstract class TowerBlockEntity extends BlockEntity implements Tickable {
     public Box range;
     protected boolean isRangeSet = false;
-    public List<Entity> hostileEntities;
     public HostileEntity target = null;
     public double xRange;
     public double yRange;
@@ -41,8 +36,12 @@ public abstract class TowerBlockEntity extends BlockEntity implements Tickable {
     public void shoot() {
         if(fireRateCounter == fireRate) {
             Position position = new PositionImpl(pos.getX(),pos.getY(),pos.getZ());
-            ProjectileEntity proj = this.createProjectile(world, position, Items.ARROW);
-            proj.setVelocity(0,5,10,1,0);
+            ProjectileEntity proj = this.createProjectile(world, position);
+            double x = target.getX() - proj.getX();
+            double y = target.getBodyY(0.33333333D) - proj.getY();
+            double z = target.getZ() - proj.getZ();
+            double d = (double) MathHelper.sqrt(x * x + z * z);
+            proj.setVelocity(x,y + d * 0.20000000298023224D,z,1.6F,0);
             world.spawnEntity(proj);
             fireRateCounter = 0;
         } else {
@@ -50,15 +49,27 @@ public abstract class TowerBlockEntity extends BlockEntity implements Tickable {
         }
     }
 
-    protected ProjectileEntity createProjectile(World world, Position position, Item item) {
-        ArrowEntity arrow = new ArrowEntity(world, position.getX() + 0.5, position.getY() + 1, position.getZ() + 0.5);
+    protected ProjectileEntity createProjectile(World world, Position position) {
+        double x = target.getX() - position.getX();
+        double y = target.getY() - position.getY();
+        double z = target.getZ() - position.getZ();
+        double xFace = 0;
+        double yFace = y >= -1 ? 0.5 : 0;
+        double zFace = 0;
+        if(Math.abs(x) > Math.abs(z)) {
+            xFace = x > 0 ? 1.05 : -0.1;
+            zFace = 0.5;
+        } else {
+            zFace = z > 0 ? 1.05 : -0.1;
+            xFace = 0.5;
+        }
+        ArrowEntity arrow = new ArrowEntity(world, (position.getX() + xFace), (position.getY() + yFace), (position.getZ() + zFace));
         return arrow;
     }
 
     @Override
     public void tick() {
         if(!this.getWorld().isClient){
-            if(target == null) {
                 if(checkTargetCounter == 20) {
                     target = getClosestHostileEntity();
                     checkTargetCounter = 0;
@@ -67,14 +78,15 @@ public abstract class TowerBlockEntity extends BlockEntity implements Tickable {
                 }
 
             }
-            if(fireRateCounter == fireRate) {
-                shoot();
-                fireRateCounter = 0;
-            } else {
-                fireRateCounter++;
+            if(target != null) {
+                if(fireRateCounter == fireRate) {
+                    shoot();
+                    fireRateCounter = 0;
+                } else {
+                    fireRateCounter++;
+                }
             }
         }
-    }
 
     public List<Entity> getHostileEntities() {
         if(!isRangeSet) {
