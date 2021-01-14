@@ -1,0 +1,26 @@
+package com.dlam.pptowers.entities;
+
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Position;
+import net.minecraft.util.math.PositionImpl;
+import net.minecraft.world.World;
+
+public abstract class LineTowerBlockEntity extends TowerBlockEntity {
+
+    public LineTowerBlockEntity(BlockEntityType<?> type, double xRange, double yRange, double zRange, int fireRate) {
+        super(type, xRange, yRange, zRange, fireRate);
+    }
+
+    @Override
+    protected void shoot() {
+        if(fireRateCounter == fireRate) {
+            Position position = new PositionImpl(pos.getX() + xFace,pos.getY() + yFace,pos.getZ() + zFace);
+            world.spawnEntity(this.createProjectile(world, position));
+            fireRateCounter = 0;
+        } else {
+            fireRateCounter++;
+        }
+    }
+}
