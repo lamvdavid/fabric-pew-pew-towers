@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "pptowers:items/lightning_tower_item"
+  }
+}

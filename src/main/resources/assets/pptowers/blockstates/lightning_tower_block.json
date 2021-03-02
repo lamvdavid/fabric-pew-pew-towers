@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "pptowers:block/lightning_tower_block" }
+  }
+}
