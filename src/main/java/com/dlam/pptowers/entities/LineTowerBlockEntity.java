@@ -14,13 +14,10 @@ public abstract class LineTowerBlockEntity extends ProjectileTowerBlockEntity {
 
     @Override
     protected void shoot() {
-        if(fireRateCounter == fireRate) {
             Position position = new PositionImpl(pos.getX() + xFace,pos.getY() + yFace,pos.getZ() + zFace);
             world.spawnEntity(this.createProjectile(world, position));
             fireRateCounter = 0;
-        } else {
-            fireRateCounter++;
-        }
+
     }
 
     protected abstract ProjectileEntity createProjectile(World world, Position position);
