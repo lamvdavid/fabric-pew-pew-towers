@@ -6,7 +6,7 @@ import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.util.math.Position;
 import net.minecraft.world.World;
 
-public class ArrowTowerBlockEntity extends ProjectileTowerBlockEntity{
+public class ArrowTowerBlockEntity extends TrajectoryTowerBlockEntity{
     //Hard coded stats. May change later if doing tower upgrades
     public static final double X_RANGE = 10.0;
     public static final double Y_RANGE = 8.0;

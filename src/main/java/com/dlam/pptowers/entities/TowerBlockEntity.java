@@ -43,8 +43,6 @@ public abstract class TowerBlockEntity extends BlockEntity implements Tickable {
     //Shoot a projectile at the target mob
     protected abstract void shoot();
 
-    protected abstract ProjectileEntity createProjectile(World world, Position position);
-
     //Checks if the tower block can see the mob
     public boolean checkSightLine(Entity entity, double x, double y, double z) {
         Vec3d vec3d = new Vec3d(pos.getX() + x, pos.getY() + y, pos.getZ() + z);

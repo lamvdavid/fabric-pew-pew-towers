@@ -13,19 +13,6 @@ public abstract class ProjectileTowerBlockEntity extends TowerBlockEntity {
     }
 
     @Override
-    protected void shoot() {
-        if(fireRateCounter == fireRate) {
-            Position position = new PositionImpl(pos.getX() + xFace,pos.getY() + yFace,pos.getZ() + zFace);
-            ProjectileEntity proj = this.createProjectile(world, position);
-            double x = target.getX() - proj.getX();
-            double y = target.getBodyY(0.33333333D) - proj.getY();
-            double z = target.getZ() - proj.getZ();
-            double d = (double) MathHelper.sqrt(x * x + z * z);
-            proj.setVelocity(x,y + d * 0.20000000298023224D,z,1.6F,0);
-            world.spawnEntity(proj);
-            fireRateCounter = 0;
-        } else {
-            fireRateCounter++;
-        }
-    }
+    protected abstract void shoot();
+    protected abstract ProjectileEntity createProjectile(World world, Position position);
 }

@@ -31,8 +31,4 @@ public class LightningTowerBlockEntity extends InstantTowerBlockEntity {
         }
     }
 
-    @Override
-    protected ProjectileEntity createProjectile(World world, Position position) {
-        return null;
-    }
 }
