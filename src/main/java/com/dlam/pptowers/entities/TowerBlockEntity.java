@@ -115,9 +115,8 @@ public abstract class TowerBlockEntity extends BlockEntity implements Tickable {
             this.range = new Box(this.getPos().getX() - xRange, this.getPos().getY() - yRange, this.getPos().getZ() - zRange, this.getPos().getX() + xRange, this.getPos().getY() + yRange, this.getPos().getZ() + zRange);
             isRangeSet = true;
         }
-        List<Entity> list = this.getWorld().getEntitiesByClass(HostileEntity.class,range,null);
+        return this.getWorld().getEntitiesByClass(HostileEntity.class,range,null);
 
-        return list;
     }
 
     //Gets the closest hostile mob in sight
