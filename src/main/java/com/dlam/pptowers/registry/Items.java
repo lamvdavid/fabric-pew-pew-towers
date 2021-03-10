@@ -22,5 +22,6 @@ public class Items {
         Registry.register(Registry.ITEM, new Identifier(PPTowers.MOD_ID, "arrow_tower_item"), new BlockItem(Blocks.ARROW_TOWER_BLOCK, new Item.Settings().group(TOWER_GROUP)));
         Registry.register(Registry.ITEM, new Identifier(PPTowers.MOD_ID, "fireball_tower_item"), new BlockItem(Blocks.FIREBALL_TOWER_BLOCK, new Item.Settings().group(TOWER_GROUP)));
         Registry.register(Registry.ITEM, new Identifier(PPTowers.MOD_ID, "lightning_tower_item"), new BlockItem(Blocks.LIGHTNING_TOWER_BLOCK, new Item.Settings().group(TOWER_GROUP)));
+        Registry.register(Registry.ITEM, new Identifier(PPTowers.MOD_ID, "chaining_tower_item"), new BlockItem(Blocks.CHAINING_TOWER_BLOCK, new Item.Settings().group(TOWER_GROUP)));
     }
 }
