@@ -1,11 +1,7 @@
 package com.dlam.pptowers.registry;
 
 import com.dlam.pptowers.PPTowers;
-import com.dlam.pptowers.items.ArrowTowerItem;
-import com.dlam.pptowers.items.FireballTowerItem;
-import com.dlam.pptowers.items.LightningTowerItem;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
