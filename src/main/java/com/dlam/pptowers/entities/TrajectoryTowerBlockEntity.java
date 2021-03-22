@@ -22,7 +22,7 @@ public abstract class TrajectoryTowerBlockEntity extends ProjectileTowerBlockEnt
         double y = target.getBodyY(0.33333333D) - proj.getY();
         double z = target.getZ() - proj.getZ();
         double d = (double) MathHelper.sqrt(x * x + z * z);
-        proj.setVelocity(x, y + d * 0.20000000298023224D, z, 1.6F, 0);
+        proj.setVelocity(x, y + d * 0.1D, z, 1.6F, 0);
         world.spawnEntity(proj);
     }
 
