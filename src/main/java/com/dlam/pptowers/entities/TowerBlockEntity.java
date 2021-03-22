@@ -4,12 +4,12 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
-import net.minecraft.world.World;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
 public abstract class TowerBlockEntity extends BlockEntity implements Tickable {
     public Box range;
     protected boolean isRangeSet = false;
-    public HostileEntity target = null;
+    public MobEntity target = null;
     public double xRange;
     public double yRange;
     public double zRange;
@@ -81,20 +81,20 @@ public abstract class TowerBlockEntity extends BlockEntity implements Tickable {
 
         xyz[1] = 0.5;
 
-        if(y >= 3) {
+        if (y >= 3) {
             xyz[0] = 0.5;
-            xyz[1] = 1.05;
+            xyz[1] = 1.01;
             xyz[2] = 0.5;
-        } else if(y <= -3) {
+        } else if (y <= -5) {
             xyz[0] = 0.5;
-            xyz[1] = -0.1;
+            xyz[1] = -0.01;
             xyz[2] = 0.5;
         } else {
-            if(Math.abs(x) > Math.abs(z)) {
-                xyz[0] = x > 0 ? 1.05 : -0.1;
+            if (Math.abs(x) > Math.abs(z)) {
+                xyz[0] = x > 0 ? 1.01 : -0.01;
                 xyz[2] = 0.5;
             } else {
-                xyz[2] = z > 0 ? 1.05 : -0.1;
+                xyz[2] = z > 0 ? 1.01 : -0.01;
                 xyz[0] = 0.5;
             }
         }
@@ -110,30 +110,32 @@ public abstract class TowerBlockEntity extends BlockEntity implements Tickable {
     }
 
     //Retrieves all hostiles entities within range of the block
-    public List<Entity> getHostileEntities() {
-        if(!isRangeSet) {
+    public List<MobEntity> getHostileEntities() {
+        if (!isRangeSet) {
             this.range = new Box(this.getPos().getX() - xRange, this.getPos().getY() - yRange, this.getPos().getZ() - zRange, this.getPos().getX() + xRange, this.getPos().getY() + yRange, this.getPos().getZ() + zRange);
             isRangeSet = true;
         }
-        return this.getWorld().getEntitiesByClass(HostileEntity.class,range,null);
+        List<MobEntity> hostiles = this.getWorld().getEntitiesByClass(HostileEntity.class, range, null);
+        hostiles.addAll(this.getWorld().getEntitiesByClass(MobEntity.class, range, null));
+        return this.getWorld().getEntitiesByClass(MobEntity.class, range, null);
 
     }
 
     //Gets the closest hostile mob in sight
-    public HostileEntity getClosestHostileEntity() {
-        List<Entity> hostileEntities = getHostileEntities();
-        HostileEntity target = null;
+    public MobEntity getClosestHostileEntity() {
+        List<MobEntity> hostileEntities = getHostileEntities();
+        MobEntity target = null;
         double targetDistance = 10000.0;
         double testDistance;
         double[] offset;
 
-        for(Entity e : hostileEntities) {
+        for (MobEntity e : hostileEntities) {
             testDistance = e.squaredDistanceTo(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ());
-            if(testDistance < targetDistance) {
+            if (testDistance < targetDistance) {
                 offset = getTargetDirection(e);
-                if(checkSightLine(e, offset[0], offset[1], offset[2])) {
+                if (checkSightLine(e, offset[0], offset[1], offset[2])) {
                     setTargetDirection(offset[0], offset[1], offset[2]);
-                    target = (HostileEntity) e;
+                    target = e;
                     targetDistance = testDistance;
                 }
             }
