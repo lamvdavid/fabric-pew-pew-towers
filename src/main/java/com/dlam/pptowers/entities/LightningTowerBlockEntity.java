@@ -1,9 +1,9 @@
 package com.dlam.pptowers.entities;
 
 import com.dlam.pptowers.registry.BlockEntities;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
+import net.minecraft.entity.mob.MobEntity;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class LightningTowerBlockEntity extends InstantTowerBlockEntity {
     public static final int FIRE_RATE = 20;
     public static final int NUM_OF_ATTACKS = 5;
 
-    public List<Entity> hostiles;
+    public List<MobEntity> hostiles;
 
     public LightningTowerBlockEntity() {
         super(BlockEntities.LIGHTNING_TOWER_BLOCK_ENTITY, X_RANGE, Y_RANGE, Z_RANGE, FIRE_RATE);
