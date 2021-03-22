@@ -16,8 +16,6 @@ public abstract class LineTowerBlockEntity extends ProjectileTowerBlockEntity {
     protected void shoot() {
             Position position = new PositionImpl(pos.getX() + xFace,pos.getY() + yFace,pos.getZ() + zFace);
             world.spawnEntity(this.createProjectile(world, position));
-            fireRateCounter = 0;
-
     }
 
     protected abstract ProjectileEntity createProjectile(World world, Position position);
