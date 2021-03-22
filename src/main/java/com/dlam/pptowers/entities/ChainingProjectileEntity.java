@@ -1,8 +1,9 @@
 package com.dlam.pptowers.entities;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.passive.GolemEntity;
+import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -92,9 +93,9 @@ public class ChainingProjectileEntity extends ArrowEntity {
 
     //Returns list of HostileEntities in range
     public List<MobEntity> getHostileEntities() {
-        List<Entity> hostiles = this.getEntityWorld().getEntitiesByClass(HostileEntity.class,range,null);
-        hostiles.addAll(this.getEntityWorld().getEntitiesByClass(MobEntity.class,range,null));
-        return this.getEntityWorld().getEntitiesByClass(MobEntity.class,range,null);
+        List<MobEntity> hostiles = this.getEntityWorld().getEntitiesByClass(MobEntity.class, range, null);
+        hostiles.removeIf(e -> e instanceof PassiveEntity || e instanceof GolemEntity);
+        return hostiles;
     }
 
     //Gets the closest hostile mob in sight that isn't the source entity from the position from the source entity

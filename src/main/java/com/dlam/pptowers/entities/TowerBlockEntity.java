@@ -3,8 +3,9 @@ package com.dlam.pptowers.entities;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.passive.GolemEntity;
+import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
@@ -115,9 +116,9 @@ public abstract class TowerBlockEntity extends BlockEntity implements Tickable {
             this.range = new Box(this.getPos().getX() - xRange, this.getPos().getY() - yRange, this.getPos().getZ() - zRange, this.getPos().getX() + xRange, this.getPos().getY() + yRange, this.getPos().getZ() + zRange);
             isRangeSet = true;
         }
-        List<MobEntity> hostiles = this.getWorld().getEntitiesByClass(HostileEntity.class, range, null);
-        hostiles.addAll(this.getWorld().getEntitiesByClass(MobEntity.class, range, null));
-        return this.getWorld().getEntitiesByClass(MobEntity.class, range, null);
+        List<MobEntity> hostiles = this.getWorld().getEntitiesByClass(MobEntity.class, range, null);
+        hostiles.removeIf(e -> e instanceof PassiveEntity || e instanceof GolemEntity);
+        return hostiles;
 
     }
 
